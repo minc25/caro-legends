@@ -23,8 +23,8 @@ const io = new Server(server, {
 
 // Phục vụ các file tĩnh từ thư mục 'dist' (build output của Vite)
 // FIX: Sửa đường dẫn để trỏ ra thư mục gốc, nơi thư mục 'dist' được tạo ra.
-//const distPath = path.join(__dirname, 'dist');
-//app.use(express.static(distPath));
+const distPath = path.join(__dirname, 'dist');
+app.use(express.static(distPath));
 
 // Biến lưu trữ trạng thái của tất cả các phòng chơi trong memory
 const rooms = {};
