@@ -23,8 +23,8 @@ const io = new Server(server, {
 
 // Phục vụ các file tĩnh từ thư mục 'dist' (build output của Vite)
 // FIX: Sửa đường dẫn để trỏ ra thư mục gốc, nơi thư mục 'dist' được tạo ra.
-const distPath = path.join(__dirname, 'dist');
-app.use(express.static(distPath));
+//const distPath = path.join(__dirname, 'dist');
+//app.use(express.static(distPath));
 
 // Biến lưu trữ trạng thái của tất cả các phòng chơi trong memory
 const rooms = {};
@@ -200,9 +200,9 @@ io.on('connection', (socket) => {
 });
 
 // Route catch-all để phục vụ index.html cho các route của React Router
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
-});
+//app.get('*', (req, res) => {
+  //res.sendFile(path.join(distPath, 'index.html'));
+//});
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
