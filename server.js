@@ -200,9 +200,9 @@ io.on('connection', (socket) => {
 });
 
 // Route catch-all để phục vụ index.html cho các route của React Router
-//app.get('*', (req, res) => {
-  //res.sendFile(path.join(distPath, 'index.html'));
-//});
+app.get('*', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
