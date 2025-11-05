@@ -1,37 +1,38 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { Server } from 'socket.io';
-import http from 'http';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import cors from "cors";
 
 const app = express();
-const server = http.createServer(app);
+const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*", // Cho phép tất cả frontend kết nối (hoặc chỉ URL của Vercel)
-    methods: ["GET", "POST"]
-  }
+    origin: "*", // hoặc ghi rõ: "https://caro-legends.vercel.app"
+    methods: ["GET", "POST"],
+  },
 });
 
-// Serve frontend đã build
-const distPath = path.join(__dirname, 'dist');
-app.use(express.static(distPath));
+app.use(cors());
+app.use(express.json());
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
-});
+// 🧠 Socket.io logic
+io.on("connection", (socket) => {
+  console.log("🟢 Người chơi mới kết nối:", socket.id);
 
-// Socket.IO logic
-io.on('connection', (socket) => {
-  console.log('🔌 Client connected:', socket.id);
+  socket.on("disconnect", () => {
+    console.log("🔴 Người chơi rời:", socket.id);
+  });
 
-  socket.on('disconnect', () => {
-    console.log('❌ Client disconnected:', socket.id);
+  socket.on("player-move", (data) => {
+    socket.broadcast.emit("opponent-move", data);
   });
 });
+
+// ❌ Không cần phục vụ index.html nữa
+// app.use(express.static("dist"));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "dist", "index.html"));
+// });
 
 const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
