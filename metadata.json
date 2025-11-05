@@ -1,0 +1,5 @@
+{
+  "name": "Caro Legends",
+  "description": "A real-time online Gomoku (Caro) game with PvP and PvE (AI) modes, featuring an infinite board, panning, zooming, and customizable skins. Built with React, TypeScript, and Tailwind CSS.",
+  "requestFramePermissions": []
+}
